@@ -31,7 +31,7 @@ class TaskCollectionViewCell: UICollectionViewCell {
         label.textAlignment = .center
         label.text = "All"
         label.isHidden = true
-        label.font = UIFont(name: "ChalkboardSE-bold", size: 17)
+        label.font = UIFont(name: "ChalkboardSE-bold", size: 15)
         return label
     }()
     
@@ -68,7 +68,7 @@ class TaskCollectionViewCell: UICollectionViewCell {
             make.edges.equalTo(contentView).inset(10)
         }
         
-        cellTitleName.snp.makeConstraints({$0.edges.equalTo(3)})
+        cellTitleName.snp.makeConstraints({$0.edges.equalTo(backView).inset(3)})
     }
     
     

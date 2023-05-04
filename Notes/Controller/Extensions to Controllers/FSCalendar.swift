@@ -98,16 +98,6 @@ extension MainViewController: FSCalendarDelegate, FSCalendarDataSource, FSCalend
     }
     
     
-//    func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-//        UISelectionFeedbackGenerator().selectionChanged()
-//        let formatter = DateFormatter()
-//        formatter.dateFormat = "dd.MM.yyyy"
-//        
-//        selectedCalendarDate = formatter.string(from: date)
-//        
-//        tablView.reloadData()
-//    }
-    
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, borderSelectionColorFor date: Date) -> UIColor? {
         .red
     }
