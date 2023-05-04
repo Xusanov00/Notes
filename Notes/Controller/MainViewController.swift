@@ -12,7 +12,7 @@ import AudioToolbox
 
 
 class MainViewController: UIViewController {
-    
+    var eventColorArr: [UIColor] = []
     let scWidth = UIScreen.main.bounds.width
     let scHeight = UIScreen.main.bounds.height
     let formatter = DateFormatter()
@@ -37,7 +37,7 @@ class MainViewController: UIViewController {
     var allNotesEnabled = false
     
     //name of images for collection view filter cells
-    var collViewSortArray: [UIColor] = [.yellow, .appColor(color: .noteRed), .appColor(color: .noteGreen), .appColor(color: .noteBlue)]
+    var collViewSortArray: [UIColor] = [.clear, .appColor(color: .noteRed), .appColor(color: .noteGreen), .appColor(color: .noteBlue)]
     
     //variable for default condition of filter
     var sortedType: noteType = .all
@@ -73,9 +73,10 @@ class MainViewController: UIViewController {
         calendar.appearance.headerTitleColor = .appColor(color: .calendarYears)
         calendar.appearance.weekdayTextColor = .appColor(color: .calendarWeekdays)
         calendar.appearance.selectionColor = .clear
+        calendar.appearance.titleWeekendColor = .red
         calendar.appearance.titleSelectionColor = .black
         calendar.appearance.eventSelectionColor = .systemTeal
-        calendar.appearance.titleWeekendColor = .red
+        calendar.firstWeekday = 2
         calendar.appearance.todayColor = #colorLiteral(red: 0, green: 0.007745540235, blue: 0.787543118, alpha: 0.5)
         let date = Date()
         
@@ -225,6 +226,7 @@ extension MainViewController: UITableViewDelegate {
 
         oldView.updateCell(cell: getSelectedCell(index: indexPath.row))
         
+        //constraint layout of noteMoreView which opens when note tapped
         func moreViewLayout() {
             if cellBottom < scHeight/2 {// whem cell is on the top half of screen
                 oldView.snp.updateConstraints { make in
@@ -371,6 +373,7 @@ extension MainViewController: UICollectionViewDelegate {
         
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TaskCollectionViewCell.id, for: indexPath) as? TaskCollectionViewCell else { return UICollectionViewCell() }
         cell.setUpLayoutConstraints()// collection view layout func
+        if indexPath.row == 0 { cell.cellTitleName.isHidden = false }
         cell.updateCell(cell: collViewSortArray[indexPath.row])//updates collection view cell details value
         
         return cell

@@ -25,6 +25,17 @@ class TaskCollectionViewCell: UICollectionViewCell {
         return view
     }()
     
+    let cellTitleName: UILabel = {
+        let label = UILabel()
+        label.textColor = .label
+        label.textAlignment = .center
+        label.text = "All"
+        label.isHidden = true
+        label.font = UIFont(name: "ChalkboardSE-bold", size: 17)
+        return label
+    }()
+    
+    
     override var isSelected: Bool {
         didSet {
             if isSelected {
@@ -51,11 +62,13 @@ class TaskCollectionViewCell: UICollectionViewCell {
     ///Setting collView Layout Constraints
     func setUpLayoutConstraints() {
         contentView.addSubview(backView)
+        backView.addSubview(cellTitleName)
         
         backView.snp.makeConstraints { make in
             make.edges.equalTo(contentView).inset(10)
         }
         
+        cellTitleName.snp.makeConstraints({$0.edges.equalTo(3)})
     }
     
     
