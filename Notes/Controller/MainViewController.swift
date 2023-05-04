@@ -219,7 +219,7 @@ extension MainViewController: UITableViewDelegate {
         
         moreViewLayout()// presents noteMoreView dependently by cell position
         
-        UIView.animate(withDuration: 0.6) {[self] in //
+        UIView.animate(withDuration: 0.3) {[self] in //
             cencelButton.backgroundColor = #colorLiteral(red: 0.1293008327, green: 0.1293008327, blue: 0.1293008327, alpha: 0.8)
             mainView.transform = CGAffineTransform(scaleX: 0.98, y: 0.98)
             view.layoutIfNeeded()

@@ -83,13 +83,16 @@ class AddNoteViewController: UIViewController {
     
     //textField for Date of task
     lazy var dateTextField: UITextField = {
-        let pickerView = UITextField()
-        pickerView.layer.borderColor = UIColor.blue.cgColor
-        pickerView.layer.borderWidth = 1
-        pickerView.layer.cornerRadius = 8
-        pickerView.textColor = .black
-        setToolbar(pickerView)
-        return pickerView
+        let textField = UITextField()
+        textField.textAlignment = .center
+        textField.layer.borderColor = UIColor.blue.cgColor
+        textField.layer.borderWidth = 1
+        textField.placeholder = "Select date"
+        textField.font = UIFont(name: "ChalkboardSE-bold", size: 20)
+        textField.layer.cornerRadius = 8
+        textField.textColor = .black
+        setToolbar(textField)
+        return textField
     }()
     
     //stackView for Priority colorButtons
@@ -186,7 +189,6 @@ class AddNoteViewController: UIViewController {
         mainView.addSubview(colorStackView)
         mainView.addSubview(dateTextField)
         mainView.addSubview(addNoteButton)
-//        mainView.addSubview(warningLabel)
         
         mainView.snp.makeConstraints { make in
             make.edges.equalTo(view)
@@ -199,7 +201,7 @@ class AddNoteViewController: UIViewController {
         noteImage.snp.makeConstraints { make in
             make.left.right.equalTo(mainView).inset(10)
             make.top.equalTo(mainView).inset(100)
-            make.height.equalTo(view.bounds.width+55)
+            make.height.equalTo(view.bounds.width+30)
         }
         
         
@@ -225,10 +227,10 @@ class AddNoteViewController: UIViewController {
         }
         
         dateTextField.snp.makeConstraints { make in
-            make.top.equalTo(colorStackView.snp.bottom).offset(10)
             make.height.equalTo(40)
-            make.left.equalTo(noteImage.snp.left).offset(35)
-            make.right.equalTo(noteImage.snp.right).offset(-35)
+            make.width.equalTo(150)
+            make.centerX.equalTo(mainView)
+            make.top.equalTo(colorStackView.snp.bottom).offset(20)
         }
 
         
