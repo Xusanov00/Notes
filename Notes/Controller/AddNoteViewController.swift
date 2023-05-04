@@ -305,7 +305,7 @@ extension AddNoteViewController {
             sender.transform = CGAffineTransform(scaleX: 1, y: 1)
         }
         
-        if titleFextField.text == "" || descriptionFextView.text == "" || descriptionFextView.text == "Write Description to your task" || dateTextField.text == "" || !selectedColor.contains("note") { // checking fields for emptity in new note case
+        if titleFextField.text == "" || dateTextField.text == "" || !selectedColor.contains("note") { // checking fields for emptity in new note case
             
             let okAction = UIAlertAction(title: "Ok", style: .cancel)
             present(Alert.alertView(title: "Hey!", message: "Please fill all fields and choose color to your note", style: .alert, actions: [okAction]), animated: true)
@@ -324,13 +324,15 @@ extension AddNoteViewController {
                     }
                 }
                 
+                if descriptionFextView.text == "Write Description to your task" { descriptionFextView.text = "" }
+                
                 DatabaseManager.shared.addNote(note: NoteDataModel(title: titleFextField.text!, subTitle: descriptionFextView.text, color: selectedColor, date: dateTextField.text!))
                 
                 UINotificationFeedbackGenerator().notificationOccurred(.warning)
                 navigationController?.popViewController(animated: true)
                 
             }else { // if it is already existed note
-                
+                if descriptionFextView.text == "Write Description to your task" { descriptionFextView.text = "" }
                 DatabaseManager.shared.updateNote(note: NoteDataModel(id: currentTask.id,title: titleFextField.text!, subTitle: descriptionFextView.text, color: selectedColor, date: dateTextField.text!))
                 
                 UINotificationFeedbackGenerator().notificationOccurred(.warning)

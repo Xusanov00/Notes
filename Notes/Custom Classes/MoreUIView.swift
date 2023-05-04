@@ -15,9 +15,6 @@ class MoreView: UIView {
     //cell background view
     lazy var moreViewsScrollView: UIScrollView = {
         let scrollView = UIScrollView()
-        scrollView.contentLayoutGuide.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
-        scrollView.contentLayoutGuide.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor).isActive = true
-        scrollView.contentInsetAdjustmentBehavior = .never
         scrollView.isScrollEnabled = true
         return scrollView
     }()
@@ -119,11 +116,7 @@ class MoreView: UIView {
         moreViewsScrollView.snp.makeConstraints({$0.edges.equalTo(self)})
         
         
-        contentVIew.snp.makeConstraints { make in
-            make.height.equalTo(moreViewsScrollView.bounds.height+30)
-            make.width.equalTo(moreViewsScrollView.bounds.width)
-            make.edges.equalTo(moreViewsScrollView)
-        }
+        contentVIew.snp.makeConstraints { $0.edges.width.equalTo(moreViewsScrollView) }
         
         titleBackView.snp.makeConstraints { make in
             make.top.left.right.equalTo(contentVIew).inset(5)

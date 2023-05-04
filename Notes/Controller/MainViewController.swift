@@ -196,10 +196,11 @@ class MainViewController: UIViewController {
 extension MainViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row < 2 {return}
+        guard let cell = tableView.cellForRow(at: indexPath) else { return }
+        if indexPath.row < 2 { return }
+        
         UIImpactFeedbackGenerator(style: .heavy).impactOccurred()// vibration effect
         
-        guard let cell = tableView.cellForRow(at: indexPath) else { return }
         cellEdges = cell.snp.top
         cellFrame = cell.convert(cell.bounds, to: view)
         
