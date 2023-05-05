@@ -135,6 +135,7 @@ class MainViewController: UIViewController {
     
     //setting Navigation bar
     func setNavigationBar() {
+        title = "My Tasks"
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "calendar"), style: .done, target: self, action: #selector(leftNavigationButtonTapped))
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .done, target: self, action: #selector(rightNavigationButtonTapped))
         

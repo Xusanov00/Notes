@@ -159,6 +159,10 @@ extension MainViewController: FSCalendarDelegate, FSCalendarDataSource, FSCalend
     
     
     
+    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, titleSelectionColorFor date: Date) -> UIColor? {
+        return nil
+    }
+    
     
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, fillSelectionColorFor date: Date) -> UIColor? {
         let dateFormatter = DateFormatter()

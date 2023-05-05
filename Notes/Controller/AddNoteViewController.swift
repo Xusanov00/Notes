@@ -158,6 +158,7 @@ class AddNoteViewController: UIViewController {
     func currentNote() {
         
         if !isNewNote {
+            title = "Edit Note"
             titleFextField.text = currentTask.title
             descriptionFextView.text = currentTask.subTitle
             descriptionFextView.textColor = .blue
@@ -172,6 +173,7 @@ class AddNoteViewController: UIViewController {
             addNoteButton.setTitle("Save changes", for: .normal)
             
         }else {
+            title = "New Note"
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
                 self.titleFextField.becomeFirstResponder()
             }
