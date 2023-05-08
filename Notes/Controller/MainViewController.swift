@@ -1,4 +1,4 @@
-//
+//1
 //  MainViewController.swift
 //  Notes
 //
@@ -12,32 +12,21 @@ import AudioToolbox
 
 
 class MainViewController: UIViewController {
-    
-    //using in FSCalendar
     var eventColorArr: [UIColor] = []
+    let scWidth = UIScreen.main.bounds.width
+    let scHeight = UIScreen.main.bounds.height
     let formatter = DateFormatter()
     var selectedCalendarDate = ""
     
-    //for ui layout
-    let scWidth = UIScreen.main.bounds.width
-    let scHeight = UIScreen.main.bounds.height
-    
-    
-    
-    
-    //for cellMoreDetailView
-    var oldView: MoreView = {
-        let view = MoreView()
-        return view
-    }()
+    var testnumb = 0
+    //for detecting old cellMoreDetailView and deleting it while creating another new
+    var oldView: MoreView?
     var cellFrame: CGRect?
     var cellEdges: ConstraintItem?
-    
-    
     //for closing cellMoreDetailView
     lazy var cencelButton: UIButton = {
         let button = UIButton()
-//        button.addTarget(self, action: #selector(cencelButtonTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(cencelButtonTapped), for: .touchUpInside)
         button.backgroundColor = .clear
         button.isHidden = true
         return button
@@ -88,7 +77,7 @@ class MainViewController: UIViewController {
         calendar.appearance.titleSelectionColor = .black
         calendar.appearance.eventSelectionColor = .systemTeal
         calendar.firstWeekday = 2
-        calendar.appearance.todayColor = #colorLiteral(red: 0, green: 0.007745540235, blue: 0.787543118, alpha: 0.5)
+        calendar.appearance.todayColor = .blue
         let date = Date()
         
         view.addSubview(calendar)
@@ -179,18 +168,18 @@ class MainViewController: UIViewController {
         view.addSubview(mainView)
         view.addSubview(cencelButton)
         mainView.addSubview(tablView)
-        //
+        
         cencelButton.snp.makeConstraints({$0.edges.equalTo(view)})
-        //
+        
         tablView.snp.makeConstraints { make in
             make.edges.equalTo(mainView)
             make.bottom.equalTo(mainView).inset(20)
         }
-        //
+        
         mainView.snp.makeConstraints { make in
             make.edges.equalTo(view)
         }
-        //
+        
         mainView.addSubview(collView)
         collView.snp.makeConstraints { make in
             make.top.equalTo(mainView).inset(70)
@@ -217,74 +206,73 @@ extension MainViewController: UITableViewDelegate {
         cellFrame = cell.convert(cell.bounds, to: view)
         
         // удаляем старый вид перед созданием нового
-//        oldView?.removeFromSuperview()
+        oldView?.removeFromSuperview()
         
-//        let newView = MoreView(frame: cellFrame!)
-        view.addSubview(oldView)
-        oldView.snp.makeConstraints({$0.edges.equalTo(cell.snp.edges).offset(0)})
-//        cencelButton.isHidden = false
-        oldView.isHidden = false
-//        oldView = newView
-//        guard let oldView else { return }
+        let newView = MoreView(frame: cellFrame!)
+        
+        view.addSubview(newView)
+        cencelButton.isHidden = false
+        oldView?.isHidden = false
+        oldView = newView
+        guard let oldView else { return }
         let cellBottom = tableView.convert(cell.center, to: tableView.superview).y
         let navBottom = navigationController!.navigationBar.frame.maxY
         
-//        moreViewLayout()// presents noteMoreView dependently by cell position
+        moreViewLayout()// presents noteMoreView dependently by cell position
         
-        UIView.animate(withDuration: 0.6) {[self] in //
-            cencelButton.backgroundColor = #colorLiteral(red: 0.1293008327, green: 0.1293008327, blue: 0.1293008327, alpha: 0.8)
-            oldView.snp.makeConstraints({$0.edges.equalTo(mainView)})
-//            mainView.transform = CGAffineTransform(scaleX: 0.98, y: 0.98)
+        UIView.animate(withDuration: 0.3) {[self] in //
+            cencelButton.backgroundColor = .black
+            cencelButton.alpha = 0.7
+            mainView.transform = CGAffineTransform(scaleX: 0.98, y: 0.98)
             view.layoutIfNeeded()
         }
 
         oldView.updateCell(cell: getSelectedCell(index: indexPath.row))
-        self.navigationController?.isNavigationBarHidden = true
-//        oldView.snp.makeConstraints({$0.edges.equalTo(mainView)})
+        
         //constraint layout of noteMoreView which opens when note tapped
-//        func moreViewLayout() {
-//            if cellBottom < scHeight/2 {// whem cell is on the top half of screen
-//                oldView.snp.updateConstraints { make in
-//                    if cellBottom - 60 + scWidth < scHeight {// if there is enough space for moreNoteView
-//                        if cellBottom - 60 > navBottom + 2 {
-//                            make.top.equalTo(cell.snp.top).offset(0)
-//                        }else {
-//                            make.top.equalTo(mainView).inset(navBottom+2)
-//                        }
-//                    }else {// if there if not enough space
-//                        make.top.equalTo(mainView).inset(navBottom+2)
-//                    }
-//                    make.height.equalTo(scWidth)
-//                    make.bottom.lessThanOrEqualTo(mainView).inset(15)
-//                    make.left.equalTo(mainView).inset(15)
-//                    make.right.equalTo(mainView).inset(15)
-//                }
-//
-//            }else {// whem cell is on the bottom half of screen
-//                oldView.snp.updateConstraints { make in
-//                    if cellBottom + 60 < scHeight + 15 {
-//                        if cellBottom + 60 - scWidth > navBottom + 2 {
-//                            make.bottom.equalTo(cell.snp.bottom).offset(0)
-//                        }else {
-//                            make.bottom.equalTo(mainView).inset(15)
-//                        }
-//                    }else {
-//                        make.bottom.equalTo(mainView).inset(15)
-//                    }
-//                    make.height.equalTo(scWidth)
-//                    make.left.equalTo(mainView).inset(15)
-//                    make.right.equalTo(mainView).inset(15)
-//                }
-//            }
-//        }
+        func moreViewLayout() {
+            if cellBottom < scHeight/2 {// whem cell is on the top half of screen
+                oldView.snp.updateConstraints { make in
+                    if cellBottom - 60 + scWidth < scHeight {// if there is enough space for moreNoteView
+                        if cellBottom - 60 > navBottom + 2 {
+                            make.top.equalTo(cell.snp.top).offset(0)
+                        }else {
+                            make.top.equalTo(mainView).inset(navBottom+2)
+                        }
+                    }else {// if there if not enough space
+                        make.top.equalTo(mainView).inset(navBottom+2)
+                    }
+                    make.height.equalTo(scWidth)
+                    make.bottom.lessThanOrEqualTo(mainView).inset(15)
+                    make.left.equalTo(mainView).inset(15)
+                    make.right.equalTo(mainView).inset(15)
+                }
+                
+            }else {// whem cell is on the bottom half of screen
+                oldView.snp.updateConstraints { make in
+                    if cellBottom + 60 < scHeight + 15 {
+                        if cellBottom + 60 - scWidth > navBottom + 2 {
+                            make.bottom.equalTo(cell.snp.bottom).offset(0)
+                        }else {
+                            make.bottom.equalTo(mainView).inset(15)
+                        }
+                    }else {
+                        make.bottom.equalTo(mainView).inset(15)
+                    }
+                    make.height.equalTo(scWidth)
+                    make.left.equalTo(mainView).inset(15)
+                    make.right.equalTo(mainView).inset(15)
+                }
+            }
+        }
         
     }
     
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        if indexPath.row > 1 {// swipe available only for cells with index greater than 1
+        if indexPath.row > 1 {// swipe available only cells with index greater than 1
             let editAction = UIContextualAction(style: .normal, title: "Edit") {[self] _, _, _ in
                 let vc = AddNoteViewController()
-                vc.currentTask = getSelectedCell(index: indexPath.row) // passes selected task to AddNoteController
+                vc.currentTask = getSelectedCell(index: indexPath.row) // passes selected task to addNoteController
                 vc.isNewNote = false
                 navigationController?.pushViewController(vc, animated: true)
             }
@@ -367,6 +355,8 @@ extension MainViewController: UITableViewDataSource {
             cell.updateCell(cell: getSelectedCell(index: indexPath.row))
             return cell
         }// note table view cell
+        
+        
         
     }
     
@@ -456,8 +446,16 @@ extension MainViewController {
     }
     
     //works when tapped out of noteMoreDetailView
-    func cencelButtonTapped() {
-        
+    @objc func cencelButtonTapped() {
+        UIView.animate(withDuration: 0.3, delay: 0) {[self] in
+            mainView.transform = CGAffineTransform(scaleX: 1, y: 1)
+            oldView?.transform = CGAffineTransform(scaleX: 1, y: 0.0001)
+            cencelButton.backgroundColor = .clear
+        }
+    completion: {[self] _ in
+        oldView?.isHidden = true
+        cencelButton.isHidden = true
+    }
     }
     
     
@@ -535,3 +533,7 @@ extension MainViewController {
     
     
 }
+
+
+
+

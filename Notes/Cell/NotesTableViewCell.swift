@@ -79,6 +79,11 @@ class NotesTableViewCell: UITableViewCell {
         titleLabel.text = cell.title
         dateLabel.text = cell.date
         subTitleLabel.text = cell.subTitle
+        if cell.subTitle == "" {
+            separatorView.isHidden = true
+        }else {
+            separatorView.isHidden = false
+        }
     }
     
     

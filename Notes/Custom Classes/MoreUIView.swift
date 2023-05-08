@@ -19,14 +19,6 @@ class MoreView: UIView {
         return scrollView
     }()
     
-    //cencel button closes self
-    let cencelButton: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
-        button.addTarget(self, action: #selector(cencelTapped), for: .touchUpInside)
-        return button
-    }()
-    
     //view for keeping labels
     let contentVIew: UIView = {
         let view = UIView()
@@ -120,7 +112,6 @@ class MoreView: UIView {
         titleBackView.addSubview(titleLabel)
         contentVIew.addSubview(separatorView)
         contentVIew.addSubview(subTitleLabel)
-        contentVIew.addSubview(cencelButton)
         
         moreViewsScrollView.snp.makeConstraints({$0.edges.equalTo(self)})
         
@@ -159,26 +150,7 @@ class MoreView: UIView {
             make.bottom.lessThanOrEqualTo(moreViewsScrollView).inset(10)
         }
         
-        cencelButton.snp.makeConstraints { make in
-            make.right.top.height.equalTo(contentVIew).inset(40)
-        }
+        
         
     }
-    
-    
-    
-    @objc func cencelTapped() {
-        let vc = MainViewController()
-            UIView.animate(withDuration: 0.3, delay: 0) {[self] in
-//                self.transform = CGAffineTransform(scaleX: 1, y: 1)
-                self.transform = CGAffineTransform(scaleX: 1, y: 0.0001)
-                cencelButton.backgroundColor = .clear
-            }
-        completion: {[self] _ in
-            self.isHidden = true
-            vc.cencelButton.isHidden = true
-        }
-    }
-    
-    
 }
